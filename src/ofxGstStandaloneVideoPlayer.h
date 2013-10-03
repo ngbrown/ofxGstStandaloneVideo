@@ -8,15 +8,26 @@ public:
 	ofxGstStandaloneVideoPlayer();
 	~ofxGstStandaloneVideoPlayer();
 
-	/// needs to be called before loadMovie
-	void 	setPixelFormat(ofPixelFormat pixelFormat);
-	bool 	loadMovie(string uri);
+	// ofBaseVideoPlayer methods
+	bool				loadMovie(string name);
+	void				close();
+	void				update();
+	void				play();
+	void				stop();		
+	bool 				isFrameNew();
+	unsigned char * 	getPixels();
+	ofTexture *			getTexture(){return NULL;};
+	float 				getWidth();
+	float 				getHeight();
+	bool				isPaused();
+	bool				isLoaded();
+	bool				isPlaying();
+	bool				setPixelFormat(ofPixelFormat pixelFormat);
+	ofPixelFormat 		getPixelFormat();
 
-	void 	update();
 
 	int		getCurrentFrame();
 	int		getTotalNumFrames();
-
 	void 	firstFrame();
 	void 	nextFrame();
 	void 	previousFrame();
@@ -24,12 +35,7 @@ public:
 
 	bool	isStream();
 
-	void 	play();
-	void 	stop();
 	void 	setPaused(bool bPause);
-	bool 	isPaused();
-	bool 	isLoaded();
-	bool 	isPlaying();
 
 	float	getPosition();
 	float 	getSpeed();
@@ -39,17 +45,11 @@ public:
 	void 	setPosition(float pct);
 	void 	setVolume(int volume);
 	void 	setLoopState(ofLoopType state);
-	int		getLoopState();
+	ofLoopType		getLoopState();
 	void 	setSpeed(float speed);
-	void 	close();
 
-	bool 			isFrameNew();
-
-	unsigned char * getPixels();
 	ofPixelsRef		getPixelsRef();
 
-	float 			getHeight();
-	float 			getWidth();
 
 	ofxGstStandaloneVideoUtils * getGstVideoUtils();
 

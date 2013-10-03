@@ -34,10 +34,10 @@ public:
 	~ofxGstStandaloneVideoGrabber();
 
 	/// needs to be called before initGrabber
-	void setPixelFormat(ofPixelFormat pixelFormat);
+	bool setPixelFormat(ofPixelFormat pixelFormat);
 	void videoSettings(){};//TODO: what is this??
 
-	void listDevices();
+	vector<ofVideoDevice> listDevices();
 	void setDeviceID(int id);
 	void setDesiredFrameRate(int framerate);
 	bool initGrabber(int w, int h);

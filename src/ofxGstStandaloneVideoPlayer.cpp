@@ -22,9 +22,14 @@ ofxGstStandaloneVideoPlayer::~ofxGstStandaloneVideoPlayer(){
 	close();
 }
 
-void ofxGstStandaloneVideoPlayer::setPixelFormat(ofPixelFormat pixelFormat){
+bool ofxGstStandaloneVideoPlayer::setPixelFormat(ofPixelFormat pixelFormat){
 	internalPixelFormat = pixelFormat;
-		videoUtils.setInternalPixelFormat(pixelFormat);
+	videoUtils.setInternalPixelFormat(pixelFormat);
+	return true;
+}
+
+ofPixelFormat ofxGstStandaloneVideoPlayer::getPixelFormat(){
+	return internalPixelFormat;
 }
 
 // name must be formatted file:///C:/path/to/file.mov
@@ -233,8 +238,8 @@ void ofxGstStandaloneVideoPlayer::setLoopState(ofLoopType state){
 	videoUtils.setLoopState(state);
 }
 
-int	ofxGstStandaloneVideoPlayer::getLoopState(){
-	return videoUtils.getLoopState();
+ofLoopType	ofxGstStandaloneVideoPlayer::getLoopState(){
+	return (ofLoopType)videoUtils.getLoopState();
 }
 
 void ofxGstStandaloneVideoPlayer::setSpeed(float speed){

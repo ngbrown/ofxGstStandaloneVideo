@@ -443,8 +443,9 @@ ofxGstStandaloneVideoGrabber::~ofxGstStandaloneVideoGrabber(){
 
 }
 
-void ofxGstStandaloneVideoGrabber::setPixelFormat(ofPixelFormat pixelFormat){
+bool ofxGstStandaloneVideoGrabber::setPixelFormat(ofPixelFormat pixelFormat){
 	internalPixelFormat = pixelFormat;
+	return true;
 }
 
 void ofxGstStandaloneVideoGrabber::setVerbose(bool bVerbose){
@@ -452,11 +453,36 @@ void ofxGstStandaloneVideoGrabber::setVerbose(bool bVerbose){
 	//else ofLogResetTopicLogLevel("ofxGstStandaloneVideoGrabber");
 }
 
-void ofxGstStandaloneVideoGrabber::listDevices(){
+vector<ofVideoDevice> ofxGstStandaloneVideoGrabber::listDevices(){
 	if(!camData.bInited) get_video_devices(camData);
 	for(unsigned i=0; i<camData.webcam_devices.size(); i++){
 		cout << "device " << i << ": " + camData.webcam_devices[i].video_device + ": " + camData.webcam_devices[i].product_name << endl;
 	}
+#if GST_VERSION_MAJOR>=1
+	if(!camData.bInited) get_video_devices(camData);
+	vector<ofVideoDevice> devices(camData.webcam_devices.size());
+	for(unsigned i=0; i<camData.webcam_devices.size(); i++){
+		devices[i].id = i;
+        devices[i].bAvailable = true; 
+		devices[i].deviceName = camData.webcam_devices[i].product_name;
+		devices[i].hardwareName = camData.webcam_devices[i].video_device;
+		devices[i].formats.resize(camData.webcam_devices[i].video_formats.size());
+		for(int j=0;j<(int)camData.webcam_devices[i].video_formats.size();j++){
+			devices[i].formats[j].pixelFormat = ofPixelFormatFromGstFormat(camData.webcam_devices[i].video_formats[j].format_name);
+			devices[i].formats[j].width = camData.webcam_devices[i].video_formats[j].width;
+			devices[i].formats[j].height = camData.webcam_devices[i].video_formats[j].height;
+			devices[i].formats[j].framerates.resize(camData.webcam_devices[i].video_formats[j].framerates.size());
+			for(int k=0;k<(int)camData.webcam_devices[i].video_formats[j].framerates.size();k++){
+				devices[i].formats[j].framerates[k] = float(camData.webcam_devices[i].video_formats[j].framerates[k].numerator)/float(camData.webcam_devices[i].video_formats[j].framerates[k].denominator);
+			}
+		}
+		ofLogVerbose("ofGstVideoGrabber") << "listDevices(): device " << i << ": " << camData.webcam_devices[i].video_device << ": " << camData.webcam_devices[i].product_name;
+	}
+	return devices;
+#else
+	ofLogWarning("ofGstVideoGrabber") << "listDevices(): only supported for gstreamer 1.0";
+	return vector<ofVideoDevice>();
+#endif
 }
 
 void ofxGstStandaloneVideoGrabber::setDeviceID(int id){
