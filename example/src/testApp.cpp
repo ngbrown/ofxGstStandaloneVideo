@@ -2,17 +2,15 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
+	ofSetFrameRate(0);
 	player.setPixelFormat(OF_PIXELS_RGB);
 	string file = ofFilePath::getAbsolutePath("fingers.mov", true);
 	std::replace(file.begin(), file.end(), '\\', '/');
-
-	// prepend the protocol
 	file = "file:///" + file;
-	
 	if(!player.loadMovie(file)) {
 		ofLogError("setup", "movie loading failed: \n" + file);
 	}
-
+	player.setLoopState(OF_LOOP_NORMAL);
 	player.play();
 }
 
@@ -23,21 +21,25 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	player.draw(0, 0, ofGetWidth(), ofGetHeight());
+	player.draw(0,0);
+}
+
+void testApp::exit(){
+	ofLogNotice() << "exiting";
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-
-	// some code for bezel adjustment.
-	// TODO: incorporate this in to a control panel gui.
-	switch(key) {
-		case ' ':
-			player.setPaused(!player.isPaused());
-			break;
-		default:
-			break;
-	}	
+	switch (key) {
+	case 'f':
+		ofToggleFullscreen();
+		break;
+	case 'p':
+		player.setPaused(!player.isPaused());
+		break;
+	default:
+		break;
+	}
 }
 
 //--------------------------------------------------------------

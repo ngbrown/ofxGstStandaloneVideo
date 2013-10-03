@@ -2,19 +2,16 @@
 
 #include "ofMain.h"
 #include "ofxGstStandaloneVideoPlayer.h"
-#include <time.h>
 
-#define PORT 12345
-
-class testApp : public ofBaseApp {
+class testApp : public ofBaseApp{
 
 	public:
-		testApp() {};
 		void setup();
 		void update();
 		void draw();
+		void exit();
 
-		void keyPressed  (int key);
+		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
 		void mouseDragged(int x, int y, int button);
@@ -23,6 +20,7 @@ class testApp : public ofBaseApp {
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		
+
 		ofxGstStandaloneVideoPlayer player;
+		
 };

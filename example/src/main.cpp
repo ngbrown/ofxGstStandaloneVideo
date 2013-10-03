@@ -1,18 +1,13 @@
 #include "ofMain.h"
 #include "testApp.h"
-#include "ofAppGlutWindow.h"
 
 //========================================================================
 int main( ){
+	ofSetupOpenGL(1024,768,OF_WINDOW);			// <-------- setup the GL context
 
-    ofAppGlutWindow window;
-	
-	// for linux, is in full screen
-	//ofSetupOpenGL(&window, 1680 * 2, 1050 * 3, OF_GAME_MODE);
+	// this kicks off the running of my app
+	// can be OF_WINDOW or OF_FULLSCREEN
+	// pass in width and height too:
+	ofRunApp(new testApp());
 
-	// for windows
-	ofSetupOpenGL(&window, 800, 700, OF_WINDOW); // <-------- setup the GL context
-	ofSetWindowPosition(50, 200);
-
-	ofRunApp( new testApp());
 }
