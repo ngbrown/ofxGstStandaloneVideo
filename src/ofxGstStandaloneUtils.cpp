@@ -275,8 +275,8 @@ void ofxGstStandaloneUtils::setPosition(float pct){
 	}
 }
 
-void ofxGstStandaloneUtils::setVolume(int volume){
-	gdouble gvolume = CLAMP(volume,0,10);
+void ofxGstStandaloneUtils::setVolume(float volume){
+	gfloat gvolume = volume;
 	g_object_set(G_OBJECT(gstPipeline), "volume", gvolume, (void*)NULL);
 }
 

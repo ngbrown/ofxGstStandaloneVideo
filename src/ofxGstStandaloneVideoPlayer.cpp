@@ -230,7 +230,7 @@ void ofxGstStandaloneVideoPlayer::setPosition(float pct){
 	videoUtils.setPosition(pct);
 }
 
-void ofxGstStandaloneVideoPlayer::setVolume(int volume){
+void ofxGstStandaloneVideoPlayer::setVolume(float volume){
 	videoUtils.setVolume(volume);
 }
 
